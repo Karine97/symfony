@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ProduitRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProduitRepository::class)]
-class Produit
+#[ORM\Entity(repositoryClass: CategorieRepository::class)]
+class Categorie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,16 +21,12 @@ class Produit
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'produits', targetEntity: Commentaire::class)]
-    private Collection $commentaires;
+    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Aproduit::class)]
+    private Collection $aproduits;
 
     public function __construct()
     {
-        $this->commentaires = new ArrayCollection();
-    }
-    public function __toString()
-    {
-        return $this->titre;
+        $this->aproduits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,32 +59,36 @@ class Produit
     }
 
     /**
-     * @return Collection<int, Commentaire>
+     * @return Collection<int, Aproduit>
      */
-    public function getCommentaires(): Collection
+    public function getAproduits(): Collection
     {
-        return $this->commentaires;
+        return $this->aproduits;
     }
 
-    public function addCommentaire(Commentaire $commentaire): self
+    public function addAproduit(Aproduit $aproduit): self
     {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires->add($commentaire);
-            $commentaire->setProduits($this);
+        if (!$this->aproduits->contains($aproduit)) {
+            $this->aproduits->add($aproduit);
+            $aproduit->setCategories($this);
         }
 
         return $this;
     }
 
-    public function removeCommentaire(Commentaire $commentaire): self
+    public function removeAproduit(Aproduit $aproduit): self
     {
-        if ($this->commentaires->removeElement($commentaire)) {
+        if ($this->aproduits->removeElement($aproduit)) {
             // set the owning side to null (unless already changed)
-            if ($commentaire->getProduits() === $this) {
-                $commentaire->setProduits(null);
+            if ($aproduit->getCategories() === $this) {
+                $aproduit->setCategories(null);
             }
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->titre;
     }
 }

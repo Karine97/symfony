@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DetailproduitController!{% endblock %}
+
+{% block body %}
+    <h1>Produit</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ le_produit.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ le_produit.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ le_produit.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <a href="{{ path('app_produit_index') }}">back to list</a>
+
+
+{% for moncommentaire in mescommentaires %}
+ <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>  {{moncommentaire.id}}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>  {{moncommentaire.titre}}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>  {{moncommentaire.description}}</td> 
+            </tr>
+            <tr>
+                <th>Ecrit par</th>
+                <td>  {{moncommentaire.users.id}}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endfor %}
+
+ <h1>Ajouter un commentaire</h1>
+ 
+{{form(form)}}
+<button type="button" class="btn btn-primary">Enregistrer</button>
+ 
+{% endblock %}
